@@ -54,8 +54,8 @@ final class Next
                 // [$versionString, $preRelease] = explode('-', $versionString, self::PRE_RELEASE_CHUNK_COUNT);
 
                 $versionStringAndPreRelease = explode('-', $versionString, self::PRE_RELEASE_CHUNK_COUNT);
-                $versionString = $versionStringAndPreRelease[0] ?? $versionString;
-                $preRelease = $versionStringAndPreRelease[1] ?? 'none';
+                $versionString              = $versionStringAndPreRelease[0] ?? $versionString;
+                $preRelease                 = $versionStringAndPreRelease[1] ?? 'none';
 
                 $versionString               .= '.0-' . $preRelease;
             } else {
