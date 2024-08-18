@@ -22,7 +22,6 @@ final class NextTest extends TestCase
         // yield 'INPUT VERSION' => [
         //    INPUT VERSION,
         //    MINIMUM VERSION,
-        //    EXPECTED CURRENT VERSION,
         //    EXPECTED MAJOR VERSION,
         //    EXPECTED MINOR VERSION,
         //    EXPECTED PATCH VERSION,
@@ -32,7 +31,6 @@ final class NextTest extends TestCase
         yield '0.1.0' => [
             '0.1.0', // INPUT VERSION
             '0.0.0', // MINIMUM VERSION
-            '0.1.0', // EXPECTED CURRENT VERSION
             '1.0.0', // EXPECTED MAJOR VERSION
             '0.2.0', // EXPECTED MINOR VERSION
             '0.1.1', // EXPECTED PATCH VERSION
@@ -42,7 +40,6 @@ final class NextTest extends TestCase
         yield '0.1' => [
             '0.1',
             '0.0.0',
-            '0.1.0',
             '1.0.0',
             '0.2.0',
             '0.1.1',
@@ -52,7 +49,6 @@ final class NextTest extends TestCase
         yield '1.0.0' => [
             '1.0.0',
             '0.0.0',
-            '1.0.0',
             '2.0.0',
             '1.1.0',
             '1.0.1',
@@ -62,7 +58,6 @@ final class NextTest extends TestCase
         yield '0.1.0-alpha' => [
             '0.1.0-alpha',
             '0.0.0',
-            '0.1.0-alpha',
             '1.0.0',
             '0.2.0',
             '0.1.0',
@@ -72,7 +67,6 @@ final class NextTest extends TestCase
         yield '0.1-alpha' => [
             '0.1-alpha',
             '0.0.0',
-            '0.1.0-alpha',
             '1.0.0',
             '0.2.0',
             '0.1.0',
@@ -82,7 +76,6 @@ final class NextTest extends TestCase
         yield '1.0.0-alpha' => [
             '1.0.0-alpha',
             '0.0.0',
-            '1.0.0-alpha',
             '2.0.0',
             '1.1.0',
             '1.0.0',
@@ -92,7 +85,6 @@ final class NextTest extends TestCase
         yield 'v0.1.0' => [
             'v0.1.0',
             '0.0.0',
-            '0.1.0',
             '1.0.0',
             '0.2.0',
             '0.1.1',
@@ -102,7 +94,6 @@ final class NextTest extends TestCase
         yield 'v1.0.0' => [
             'v1.0.0',
             '0.0.0',
-            '1.0.0',
             '2.0.0',
             '1.1.0',
             '1.0.1',
@@ -112,7 +103,6 @@ final class NextTest extends TestCase
         yield 'v1.0' => [
             'v1.0',
             '0.0.0',
-            '1.0.0',
             '2.0.0',
             '1.1.0',
             '1.0.1',
@@ -122,7 +112,6 @@ final class NextTest extends TestCase
         yield 'v1' => [
             'v1',
             '0.0.0',
-            '1.0.0',
             '2.0.0',
             '1.1.0',
             '1.0.1',
@@ -132,7 +121,6 @@ final class NextTest extends TestCase
         yield 'v1.2.3' => [
             'v1.2.3',
             '0.0.0',
-            '1.2.3',
             '2.0.0',
             '1.3.0',
             '1.2.4',
@@ -142,20 +130,18 @@ final class NextTest extends TestCase
         yield 'v1.2.4' => [
             'v1.2.4',
             'v1.2.5',
-            '1.2.5',
             '2.0.0',
             '1.3.0',
-            '1.2.6',
+            '1.2.5',
             false,
         ];
 
         yield 'v1.2.5' => [
             'v1.2.5',
             'v1.3.0',
-            '1.3.0',
             '2.0.0',
-            '1.4.0',
-            '1.3.1',
+            '1.3.0',
+            '1.3.0',
             false,
         ];
 
@@ -163,9 +149,8 @@ final class NextTest extends TestCase
             'v1.2.6',
             'v2.0.0',
             '2.0.0',
-            '3.0.0',
-            '2.1.0',
-            '2.0.1',
+            '2.0.0',
+            '2.0.0',
             false,
         ];
     }
@@ -174,16 +159,14 @@ final class NextTest extends TestCase
      * @test
      * @dataProvider provideVersions
      */
-    public function version(string $version, string $minimumVersion, string $expectedCurrent, string $expectedMajor, string $expectedMinor, string $expectedPatch, bool $expectException): void
+    public function version(string $version, string $minimumVersion, string $expectedMajor, string $expectedMinor, string $expectedPatch, bool $expectException): void
     {
         $strict = false;
         $output = Next::run($version, $minimumVersion, $strict);
 
-        self::assertStringContainsString('current=' . $expectedCurrent, $output, 'current');
         self::assertStringContainsString('major=' . $expectedMajor, $output, 'major');
         self::assertStringContainsString('minor=' . $expectedMinor, $output, 'minor');
         self::assertStringContainsString('patch=' . $expectedPatch, $output, 'patch');
-        self::assertStringContainsString('v_current=v' . $expectedCurrent, $output, 'v_current');
         self::assertStringContainsString('v_major=v' . $expectedMajor, $output, 'v_major');
         self::assertStringContainsString('v_minor=v' . $expectedMinor, $output, 'v_minor');
         self::assertStringContainsString('v_patch=v' . $expectedPatch, $output, 'v_patch');
@@ -193,7 +176,7 @@ final class NextTest extends TestCase
      * @test
      * @dataProvider provideVersions
      */
-    public function strict(string $version, string $minimumVersion, string $expectedCurrent, string $expectedMajor, string $expectedMinor, string $expectedPatch, bool $expectException): void
+    public function strict(string $version, string $minimumVersion, string $expectedMajor, string $expectedMinor, string $expectedPatch, bool $expectException): void
     {
         if ($expectException) {
             self::expectException(InvalidVersionString::class);
@@ -202,11 +185,9 @@ final class NextTest extends TestCase
         $strict = true;
         $output = Next::run($version, $minimumVersion, $strict);
 
-        self::assertStringContainsString('current=' . $expectedCurrent, $output, 'current');
         self::assertStringContainsString('major=' . $expectedMajor, $output, 'major');
         self::assertStringContainsString('minor=' . $expectedMinor, $output, 'minor');
         self::assertStringContainsString('patch=' . $expectedPatch, $output, 'patch');
-        self::assertStringContainsString('v_current=v' . $expectedCurrent, $output, 'v_current');
         self::assertStringContainsString('v_major=v' . $expectedMajor, $output, 'v_major');
         self::assertStringContainsString('v_minor=v' . $expectedMinor, $output, 'v_minor');
         self::assertStringContainsString('v_patch=v' . $expectedPatch, $output, 'v_patch');
