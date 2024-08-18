@@ -50,7 +50,13 @@ final class Next
 
             // split versionString by '-' (in case it is a pre-release)
             if (strpos($versionString, '-') !== false) {
-                [$versionString, $preRelease] = explode('-', $versionString, self::PRE_RELEASE_CHUNK_COUNT);
+                // because of psalm linting we can't do this
+                // [$versionString, $preRelease] = explode('-', $versionString, self::PRE_RELEASE_CHUNK_COUNT);
+
+                $versionStringAndPreRelease = explode('-', $versionString, self::PRE_RELEASE_CHUNK_COUNT);
+                $versionString = $versionStringAndPreRelease[0] ?? $versionString;
+                $preRelease = $versionStringAndPreRelease[1] ?? 'none';
+
                 $versionString               .= '.0-' . $preRelease;
             } else {
                 $versionString .= '.0';
