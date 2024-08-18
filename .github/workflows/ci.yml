@@ -1,6 +1,6 @@
 name: Continuous Integration
 env:
-  DOCKER_IMAGE: wyrihaximusgithubactions/next-semvers
+  DOCKER_IMAGE: parityai/next-semvers
   DOCKER_BUILDKIT: 1
 on:
   push:
@@ -130,4 +130,6 @@ jobs:
           echo "${{ steps.semvers.outputs.minor }}"
           echo "${{ steps.semvers.outputs.major }}"
           echo "${{ steps.semvers.outputs.v_major }}"
+          echo "${{ steps.semvers.outputs.current }}"
+          echo "${{ steps.semvers.outputs.v_current }}"
           echo "${{ toJSON(steps.semvers.outputs) }}"
