@@ -9,10 +9,7 @@ use Version\Version;
 
 use function count;
 use function explode;
-use function str_starts_with;
-use function strlen;
 use function strpos;
-use function substr;
 
 use const WyriHaximus\Constants\Numeric\ONE;
 use const WyriHaximus\Constants\Numeric\TWO;
@@ -20,23 +17,9 @@ use const WyriHaximus\Constants\Numeric\TWO;
 final class Next
 {
     private const PRE_RELEASE_CHUNK_COUNT = 2;
-    private const PREFIXES                = ['v', 'release-'];
 
     public static function run(string $versionString, string $minimumVersionString, bool $strict): string
     {
-        foreach (self::PREFIXES as $prefix) {
-            if (str_starts_with($versionString, $prefix)) {
-                $versionString = substr($versionString, strlen($prefix));
-            }
-
-            // this code structure is weird but required by the linter
-            if (! str_starts_with($minimumVersionString, $prefix)) {
-                continue;
-            }
-
-            $minimumVersionString = substr($minimumVersionString, strlen($prefix));
-        }
-
         try {
             $version = Version::fromString($versionString);
         } catch (InvalidVersionString $invalidVersionException) {
@@ -88,6 +71,7 @@ final class Next
 
         // set each version to min version if less than it
         $minVersion = Version::fromString($minimumVersionString);
+        $minVersion = Version::from($minVersion->getMajor(), $minVersion->getMinor(), $minVersion->getPatch());
 
         if ($majorVersion->isLessThan($minVersion)) {
             $majorVersion = $minVersion;
