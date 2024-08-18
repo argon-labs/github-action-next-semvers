@@ -118,6 +118,7 @@ jobs:
         uses: ./
         with:
           version: v1.1.1
+          min_version: v1.0.0
       - name: Print Output
         run: |
           echo "${{ steps.semvers.outputs.v_patch }}"
