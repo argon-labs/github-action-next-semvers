@@ -32,7 +32,7 @@ final class NextTest extends TestCase
         yield '0.1.0' => [
             '0.1.0', // INPUT VERSION
             '0.0.0', // MINIMUM VERSION
-            '0.1.0', // CURRENT VERSION
+            '0.1.0', // EXPECTED CURRENT VERSION
             '1.0.0', // EXPECTED MAJOR VERSION
             '0.2.0', // EXPECTED MINOR VERSION
             '0.1.1', // EXPECTED PATCH VERSION
