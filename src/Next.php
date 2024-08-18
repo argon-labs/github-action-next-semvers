@@ -104,7 +104,7 @@ final class Next
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Raw versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output .= 'major=' . $majorVersion . "\n";
+        $output  = 'major=' . $majorVersion . "\n";
         $output .= 'minor=' . $minorVersion . "\n";
         $output .= 'patch=' . $patchVersion . "\n";
 
