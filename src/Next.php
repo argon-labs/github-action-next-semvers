@@ -57,7 +57,7 @@ final class Next
                 $versionString              = $versionStringAndPreRelease[0] ?? $versionString;
                 $preRelease                 = $versionStringAndPreRelease[1] ?? 'none';
 
-                $versionString               .= '.0-' . $preRelease;
+                $versionString .= '.0-' . $preRelease;
             } else {
                 $versionString .= '.0';
             }
