@@ -73,7 +73,7 @@ final class Next
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Raw versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output  = 'current=' . $originalVersion->toString() . "\n";
+        $output  = 'current=' . $originalVersion . "\n";
         $output .= 'major=' . $version->incrementMajor() . "\n";
         $output .= 'minor=' . $version->incrementMinor() . "\n";
 
