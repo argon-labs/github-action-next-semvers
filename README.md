@@ -16,9 +16,17 @@ The version we want to have the next versions for.
 * *Type*: `string`
 * *Example*: `v1.2.3` or `1.2.3`
 
+### min_version
+
+The minimum version we want to have the next versions for. Must be a valid SemVer.
+
+* *Required*: `Yes`
+* *Type*: `string`
+* *Example*: `v1.2.3` or `1.2.3`
+
 ### strict
 
-Strict version validation, when turned off, the version is suffixed with `.0` until it contains 3 x `.`.
+Strict version validation, when turned off, the version is suffixed with `.0` until it contains 2 x `.`.
 
 * *Required*: `No`
 * *Type*: `string`
@@ -29,18 +37,22 @@ Strict version validation, when turned off, the version is suffixed with `.0` un
 This action output 6 slightly different outputs. A new major, minor, and patch version and a variant of those prefixed
 with a `v`. For example when you input `1.2.3` it will give you the following outputs:
 
+* `current`: `1.2.3`
 * `major`: `2.0.0`
 * `minor`: `1.3.0`
 * `patch`: `1.2.4`
+* `v_current`: `v1.2.3`
 * `v_major`: `v2.0.0`
 * `v_minor`: `v1.3.0`
 * `v_patch`: `v1.2.4`
 
 In addition, if your input contains an indicator that it is a pre-release (e.g., `1.2.3-alpha`), the output for `patch` version changes accordingly (while the behaviour for `major` and `minor` are not affected and work as usual):
 
+* `current`: `1.2.3-alpha`
 * `major`: `2.0.0`
 * `minor`: `1.3.0`
 * `patch`: `1.2.3`
+* `v_current`: `v1.2.3-alpha`
 * `v_major`: `v2.0.0`
 * `v_minor`: `v1.3.0`
 * `v_patch`: `v1.2.3`

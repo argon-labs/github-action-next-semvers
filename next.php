@@ -11,7 +11,13 @@ exit((function (): int {
         return 1;
     }
 
-    file_put_contents(getenv('GITHUB_OUTPUT'), Next::run($versionString, \getenv('INPUT_STRICT') === 'false' ? false : true), FILE_APPEND);
+    $minVersionstring = \getenv('INPUT_MIN_VERSION');
+
+    if ($minVersionstring === false) {
+        return 1;
+    }
+
+    file_put_contents(getenv('GITHUB_OUTPUT'), Next::run($versionString, $minVersionstring, \getenv('INPUT_STRICT') === 'false' ? false : true), FILE_APPEND);
 
     return 0;
 })());

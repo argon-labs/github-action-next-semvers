@@ -1,1 +1,1 @@
-FROM wyrihaximusgithubactions/next-semvers:master
+FROM parityai/next-semvers:master
