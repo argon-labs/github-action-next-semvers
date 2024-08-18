@@ -65,8 +65,6 @@ final class Next
             return self::run($versionString, $minimumVersionString, $strict);
         }
 
-        $originalVersion = $version;
-
         $wasPreRelease = false;
 
         // if current version is a pre-release
@@ -76,38 +74,46 @@ final class Next
             $wasPreRelease = true;
         }
 
+        $majorVersion = $version->incrementMajor();
+        $minorVersion = $version->incrementMinor();
+
+        // use current version (without pre-release)
+        $patchVersion = $version;
+
+        // check if current version is a pre-release or not
+        if (! $wasPreRelease) {
+            // increment major/minor/patch version
+            $patchVersion = $version->incrementPatch();
+        }
+
+        // set each version to min version if less than it
         $minVersion = Version::fromString($minimumVersionString);
-        if ($version->isLessThan($minVersion)) {
-            $version         = $minVersion;
-            $originalVersion = $minVersion;
+
+        if ($majorVersion->isLessThan($minVersion)) {
+            $majorVersion = $minVersion;
+        }
+
+        if ($minorVersion->isLessThan($minVersion)) {
+            $minorVersion = $minVersion;
+        }
+
+        if ($patchVersion->isLessThan($minVersion)) {
+            $patchVersion = $minVersion;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Raw versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output  = 'current=' . $originalVersion . "\n";
-        $output .= 'major=' . $version->incrementMajor() . "\n";
-        $output .= 'minor=' . $version->incrementMinor() . "\n";
+        $output  = 'major=' . $majorVersion . "\n";
+        $output .= 'minor=' . $minorVersion . "\n";
+        $output .= 'patch=' . $patchVersion . "\n";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // v prefixed versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output .= 'v_current=v' . $originalVersion . "\n";
-        $output .= 'v_major=v' . $version->incrementMajor() . "\n";
-        $output .= 'v_minor=v' . $version->incrementMinor() . "\n";
-
-        // check if current version is a pre-release
-        if ($wasPreRelease) {
-            // use current version (without pre-release)
-            $output .= 'patch=' . $version . "\n";
-            // v prefixed versions
-            $output .= 'v_patch=v' . $version . "\n";
-        } else {
-            // increment major/minor/patch version
-            $output .= 'patch=' . $version->incrementPatch() . "\n";
-            // v prefixed versions
-            $output .= 'v_patch=v' . $version->incrementPatch() . "\n";
-        }
+        $output .= 'v_major=v' . $majorVersion . "\n";
+        $output .= 'v_minor=v' . $minorVersion . "\n";
+        $output .= 'v_patch=v' . $patchVersion . "\n";
 
         return $output;
     }
