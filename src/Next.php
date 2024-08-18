@@ -65,8 +65,6 @@ final class Next
             return self::run($versionString, $minimumVersionString, $strict);
         }
 
-        $originalVersion = $version;
-
         $wasPreRelease = false;
 
         // if current version is a pre-release
@@ -106,7 +104,6 @@ final class Next
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // Raw versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output  = 'current=' . $originalVersion . "\n";
         $output .= 'major=' . $majorVersion . "\n";
         $output .= 'minor=' . $minorVersion . "\n";
         $output .= 'patch=' . $patchVersion . "\n";
@@ -114,7 +111,6 @@ final class Next
         ///////////////////////////////////////////////////////////////////////////////////////////////
         // v prefixed versions
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        $output .= 'v_current=v' . $originalVersion . "\n";
         $output .= 'v_major=v' . $majorVersion . "\n";
         $output .= 'v_minor=v' . $minorVersion . "\n";
         $output .= 'v_patch=v' . $patchVersion . "\n";

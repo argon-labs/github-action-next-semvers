@@ -15,10 +15,6 @@ inputs:
     default: "true"
     required: false
 outputs:
-  current:
-    description: 'Current Version'
-  v_current:
-    description: 'Current Version (prefixed with v)'
   major:
     description: 'Next Major Version'
   minor:

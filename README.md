@@ -37,22 +37,18 @@ Strict version validation, when turned off, the version is suffixed with `.0` un
 This action output 6 slightly different outputs. A new major, minor, and patch version and a variant of those prefixed
 with a `v`. For example when you input `1.2.3` it will give you the following outputs:
 
-* `current`: `1.2.3`
 * `major`: `2.0.0`
 * `minor`: `1.3.0`
 * `patch`: `1.2.4`
-* `v_current`: `v1.2.3`
 * `v_major`: `v2.0.0`
 * `v_minor`: `v1.3.0`
 * `v_patch`: `v1.2.4`
 
 In addition, if your input contains an indicator that it is a pre-release (e.g., `1.2.3-alpha`), the output for `patch` version changes accordingly (while the behaviour for `major` and `minor` are not affected and work as usual):
 
-* `current`: `1.2.3-alpha`
 * `major`: `2.0.0`
 * `minor`: `1.3.0`
 * `patch`: `1.2.3`
-* `v_current`: `v1.2.3-alpha`
 * `v_major`: `v2.0.0`
 * `v_minor`: `v1.3.0`
 * `v_patch`: `v1.2.3`
